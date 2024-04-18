@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Song-rizz Complaint Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #9c9898;
+      padding: 20px;
+    }
+    
+    h1 {
+      text-align: center;
+    }
+    
+    form {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    
+    input[type=text], textarea {
+      width: 100%;
+      padding: 12px 20px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    
+    input[type=submit] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      float: right;
+    }
+    
+    input[type=submit]:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>Song-rizz Complaint Form</h1>
+  <form id="complaint-form">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email" required>
+    
+    <label for="complaint">Complaint:</label>
+    <textarea id="complaint" name="complaint" rows="5" required></textarea>
+    
+    <input type="submit" value="Submit">
+  </form>
+
+  <script>
+    document.getElementById('complaint-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      var name = document.getElementById('name').value;
+      var email = document.getElementById('email').value;
+      var complaint = document.getElementById('complaint').value;
+      
+      var formData = {
+        name: name,
+        email: email,
+        complaint: complaint
+      };
+      
+      // Replace 'your-email@example.com' with your actual email address
+      var emailAddress = 'anuragsh844@gmail.com';
+      
+      // Send the form data to your email address
+      fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          service_id: 'default_service',
+          template_id: 'complaint_form',
+          user_id: 'YOUR_USER_ID_HERE',
+          template_params: formData,
+          to_email: emailAddress
+        })
+      })
+      .then(function() {
+        alert('Complaint submitted successfully!');
+        document.getElementById('complaint-form').reset();
+      })
+      .catch(function(error) {
+        alert('Error submitting complaint: ' + error);
+      });
+    });
+  </script>
+</body>
+</html>
